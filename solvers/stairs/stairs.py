@@ -23,13 +23,13 @@ class Stairs(object):
                 bssid_used.add(self.connection_map.get(connection).BSSID)
         result = {}
         for device in signal_matrix.keys():
-            if (self.connection_map.get(device).get_status() == 'connected'):
-                if (int(self.current_connections.get(device).get('SIGNAL')) < self.update_min_signal):
+            if self.connection_map.get(device).get_status() == 'connected':
+                if int(self.current_connections.get(device).get('SIGNAL')) < self.update_min_signal:
                     bssid_max = None
                     signal_max = self.update_max_signal
                     for bssid in signal_matrix.get(device):
                         if (int(signal_matrix.get(device).get(bssid)) >= signal_max
-                            and bssid not in bssid_used):
+                                and bssid not in bssid_used):
                             bssid_max = bssid
                             signal_max = int(signal_matrix.get(device).get(bssid))
                     if bssid_max is not None:
@@ -38,7 +38,7 @@ class Stairs(object):
                 else:
                     bssid_used.add(self.current_connections.get(device).get('BSSID'))
                 signal_matrix.pop(device)
-            elif (self.connection_map.get(device).get_status() != 'disconnected'):
+            elif self.connection_map.get(device).get_status() != 'disconnected':
                 signal_matrix.pop(device)
         order_map = {}
         order = signal_matrix.keys()
@@ -48,7 +48,8 @@ class Stairs(object):
             for bssid in signal_matrix.get(device):
                 for device_check in signal_matrix:
                     if signal_matrix.get(device_check).get(bssid) is not None:
-                        order_map[device] += int(signal_matrix.get(device).get(bssid))**2 - int(signal_matrix.get(device_check).get(bssid))**2
+                        order_map[device] += int(signal_matrix.get(device).get(bssid)) ** 2 - int(
+                            signal_matrix.get(device_check).get(bssid)) ** 2
         order.sort(cmp=lambda x, y: 1 if order_map.get(x) < order_map.get(y) else -1)
         if self.stability:
             order.reverse()
