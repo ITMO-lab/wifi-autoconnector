@@ -92,7 +92,7 @@ if {} is not None:
                     continue
 
             # step 3
-            if available_connections == used_routers:
+            if available_connections.issubset(used_routers):
                 continue
             best_available_connection = max(available_connections.iteritems(),
                                             key=lambda router, signal: (router not in used_routers, signal))
