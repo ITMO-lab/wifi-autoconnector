@@ -476,16 +476,23 @@ http://wiki.ros.org/master_discovery_fkie
 ​	Для установки hamachi необходимо зайти на оффициальный сайт https://vpn.net/linux и скачать актуальную версию для архитектуры ARMHF, подходящую системе в расширении “deb”. Важно, чтобы версия оказалась на raspberry pi 4. Далее в директории с файлом logmein-hamachi_{ВЕРСИЯ}_armhf.deb нужно открыть терминал и ввести следующие команды:
 
 `sudo dpkg -i logmein-hamachi_*_armhf.deb` 
+
 `sudo /etc/init.d/logmein-hamachi start` 
+
 `sudo systemctl daemon-reload`
+
 `sudo systemctl enable logmein-hamachi.service` 
+
 `sudo systemctl start logmein-hamachi.service`
 
 ​	После чего требуется создать аккаунт hamachi на их официальном сайте, создать собственную VPN сеть в hamachi, обращаем внимание на адрес электронной почты, на который регистрировался аккаунт (на него придет подтверждение, его надо подтвердить), также на номер созданной вами VPN сети. Далее нужно снова открыть терминал и ввести следующие команды (Команда “do-join” может привести к запросу пароля, если вы его задали для вашей сети. Вам будет необходимо его ввести):
 
 `sudo hamachi logon`
+
 `sudo hamachi attach <Email адрес аккаунта>` 
+
 `sudo hamachi do-join <network ID>` 
+
 `sudo hamachi list`
 
 ​	Последняя команда выведет список активных и неактивных пользователей данной сети, чтобы можно было убедиться в работоспособности сервиса.
