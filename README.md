@@ -74,10 +74,9 @@
 
 3. RADIUS проверяет пакет и право доступа клиентского устройства по базе данных пользователя или другим признакам и затем отправляет на аутентификатор разрешение или запрет на подключение. Соответственно, аутентификатор разрешает или запрещает доступ в сеть.
 
-
 ![img](https://lh3.googleusercontent.com/ftcuSMOe1HRznZ0s_-a-tj1SIW3KypCn3cC_w30NId36VyQWgNefHDiW4csMzjWN1kiuOHBgt6Q8CWt19jN6bpLMlJ1zJj51xNXtAr0R_8kcZEupFbgIF-WWwiinmnK8yvcd0P8n)
 
-<center>Рисунок 1 - Внутренние протоколы (методы) EAP</center>
+*Рисунок 1 - Внутренние протоколы (методы) EAP*
 
 ​	Доступные в WPA2-Enterprise варианты шифрования таковы:
 
@@ -149,7 +148,7 @@
 
 ![img](https://lh6.googleusercontent.com/GJFrXuXK3LIFKu6SKkMB2K09rdpEiCIY79lcBXkPo7oltHABvRPlUCagPdVtuuwf51sRr3joft_4O5Xx0p8pHUJODPOPM6vcg14zhK6FUON-mwB8glaGKtkY7FkSIXeqgqVG4ba0)
 
-<center>Рисунок 2 - UML диаграмма классов и сервисов написанной системы</center>
+*Рисунок 2 - UML диаграмма классов и сервисов написанной системы*
 
 ​	Исходный код системы
 
@@ -163,7 +162,7 @@
 
 ![img](https://lh5.googleusercontent.com/uRqOaQ3U6JTXy2_FWEIufj6dXX-lcathcCW8GdHIVdqjXTn-UJOLFvig8nzKYIVPooqRwA_3etGC8iNyjFU80qMZyuJxugc9DP3q0sGhwt3QZV01eOd10649y9fzhA2Me9fcR37S)
 
-<center>Рисунок 3 - Схема к решателю Stairs</center>
+*Рисунок 3 - Схема к решателю Stairs*
 
 ​	На данном изображении описано, как работает переподключение к альтернативным сетям при низком уровне сигнала.
 
@@ -171,7 +170,7 @@
 
 
 
-<center>Таблица 1 - матрица сигналов сетей для каждого адаптера, строки которой отсортированы по убыванию “относительной силы приёма”</center>
+*Таблица 1 - матрица сигналов сетей для каждого адаптера, строки которой отсортированы по убыванию “относительной силы приёма”*
 
 | Adapter \ BSSID | 14:CC:20:D0:F0:20 | 02:ED:2B:5D:B6:1D | 50:FF:20:14:08:95 |
 | --------------- | ----------------- | ----------------- | ----------------- |
@@ -183,7 +182,7 @@
 
 
 
-<center>Таблица 2 - матрица сигналов сетей для каждого адаптера, иллюстрирующая оптимальный в плане стабильности соединения выбор конфигурации сети</center>
+*Таблица 2 - матрица сигналов сетей для каждого адаптера, иллюстрирующая оптимальный в плане стабильности соединения выбор конфигурации сети*
 
 | Adapter \ BSSID | 14:CC:20:D0:F0:20 | 02:ED:2B:5D:B6:1D | 50:FF:20:14:08:95 |
 | --------------- | ----------------- | ----------------- | ----------------- |
@@ -197,7 +196,7 @@
 
 
 
-<center>Таблица 3 - матрица сигналов сетей для каждого адаптера, иллюстрирующая оптимальный в плане стабильности самого сильного соединения выбор конфигурации сети</center>
+*Таблица 3 - матрица сигналов сетей для каждого адаптера, иллюстрирующая оптимальный в плане стабильности самого сильного соединения выбор конфигурации сети*
 
 | Adapter \ BSSID | 14:CC:20:D0:F0:20 | 02:ED:2B:5D:B6:1D | 50:FF:20:14:08:95 |
 | --------------- | ----------------- | ----------------- | ----------------- |
@@ -239,7 +238,8 @@ https://learn.ubiquityrobotics.com/
 ​	Пакет pynmcli не имеет зависимостей и работает с python 2.7+
 pynmcli напрямую использует Network-Manager. Для установки введите в консоль следующие команды:
 
-`sudo apt update -y sudo apt upgrade -y sudo apt install network-manager -y`
+`sudo apt update -y sudo apt upgrade -y `
+`sudo apt install network-manager -y`
 
 ​	Установить пакет можно двумя путями. Первый - через pip. Используйте `pip3 install` вместо `pip install`, если хотите работать с версией python 3+
 
@@ -247,7 +247,8 @@ pynmcli напрямую использует Network-Manager. Для устан
 
 ​	Также пакет можно собрать из исходников:
 
-`git clone https://github.com/fbarresi/PyNmcli.git cd PyNmcli python setup.py install`
+`git clone https://github.com/fbarresi/PyNmcli.git `
+`cd PyNmcli python setup.py install`
 
 ## **5.3**  **Установка пакета проекта качестве фонового демона**
 
@@ -413,7 +414,7 @@ http://wiki.ros.org/master_discovery_fkie
 
 ![img](https://lh6.googleusercontent.com/Lbwb7LWrbWapkXQxks0LS-mVpk99kHSyLsQKho38jqnnR8a5UujyXfdew1OVYcNqLDbgJPiFBtFlTWhAGFKkh-l0Uny156W49L5sCLLwbrYstRM5iviN41yqRnUbNWeO0qkHTNPO)
 
-<center>Рисунок 4 - Роутер Xiaomi Mi WiFi Router pro (r3p)</center>
+*Рисунок 4 - Роутер Xiaomi Mi WiFi Router pro (r3p)*
 
 ​	Существует несколько способов размещения антенн у роутера. Самый распространенный из них - простое вертикальное расположение. Однако, это было бы наиболее выгодно в условиях домашнего потребления, т.к. делиться wifi с соседями не является нашей задачей. У нас же все обстоит немного иначе. Т.к. мы будем работать в воздушным пространством, то будет иметь смысл расположение либо горизонтально (Что несомненно уменьшит покрытие вширь), либо под углом 90 или 45 градусов друг к другу. В случае двух антенн, нам будет наиболее выгодно расположить каждую из них под 45 градусов относительно оси роутера, таким образом, между собой они будут образовывать прямой угол и иметь наибольшее покрытие как в воздухе, так и в горизонтальном пространстве. Что касается четырех антенн, то тут ситуация почти такая же, за исключением того, что две другие антенны надо будет располагать также перпендикулярно плоскости первых двух и под 45 градусов к плоскости роутера.
 
@@ -427,11 +428,11 @@ http://wiki.ros.org/master_discovery_fkie
 
 ![img](https://lh6.googleusercontent.com/D316jGxv85VbjaH9LEFNlMJgHp3pX7Gee6Jes8IkI5BkPzMQV_EGGFnlihNmCOjEl9LCKuHznfP0mq-n5FfLu-5a-xoUHhZfvv2SJjfT9UgNicWXF9VF6jn6u8Yuq7T139q-uRk7)
 
-<center>Рисунок 5 - Схема роутера без антенн</center>
+*Рисунок 5 - Схема роутера без антенн*
 
 ![img](https://lh3.googleusercontent.com/g3uteuSI7mL_k64nNyzM4i0lbs2W4rRF8ekc8mioXt4qOkCfkxZ65pp_ap_8qZhTNzteFyY8lXK2RHaS9z3eaAC56xQL1oXi67geRrYX_NzDXTA8Y5ti8OjqMlvaH6tEr4aW9ENM)
 
-<center>Рисунок 6 - Схема с подключенными антеннами</center>
+*Рисунок 6 - Схема с подключенными антеннами*
 
 
 
@@ -443,7 +444,7 @@ http://wiki.ros.org/master_discovery_fkie
 
 ![img](https://lh3.googleusercontent.com/0L4GEvdfM58RJSPuFpCTH-7oFW7TAytbh8eDpKoovhSGqR-q0VMinCCPDcOL_MEP1kC_5L42yT-UOc1Rdv3-z4R-QNSOm-pL1WD0CPmHAapLGifEsXq_0Hej-LtmbvgxOXkJc7rO)
 
-<center>Рисунок 7 - Скорость соединения напрямую через Wi-Fi</center>
+*Рисунок 7 - Скорость соединения напрямую через Wi-Fi*
 
 ## **8.2**  **Анализ возможности доступа к ROS через внешний IP адрес**
 
@@ -472,7 +473,7 @@ http://wiki.ros.org/master_discovery_fkie
 
 ![img](https://lh5.googleusercontent.com/6rjtFXuLNlzC25EqzbaddpYzgkstShOJjkD6PZV70CY2QBMFzouzhP14-RsPT0ftkhtrQuUWh2qHN0j3wpnO01xqqvbcbDcarBWQoULDZyNTx7eJCNVwNRB0Duqy0sF9yDDlUEGB)
 
-<center>Рисунок 8 - Скорость соединения через IP адрес, предоставленный VPN</center>
+*Рисунок 8 - Скорость соединения через IP адрес, предоставленный VPN*
 
 
 
