@@ -239,6 +239,7 @@ https://learn.ubiquityrobotics.com/
 pynmcli напрямую использует Network-Manager. Для установки введите в консоль следующие команды:
 
 `sudo apt update -y sudo apt upgrade -y `
+
 `sudo apt install network-manager -y`
 
 ​	Установить пакет можно двумя путями. Первый - через pip. Используйте `pip3 install` вместо `pip install`, если хотите работать с версией python 3+
@@ -247,7 +248,8 @@ pynmcli напрямую использует Network-Manager. Для устан
 
 ​	Также пакет можно собрать из исходников:
 
-`git clone https://github.com/fbarresi/PyNmcli.git `
+`git clone https://github.com/fbarresi/PyNmcli.git`
+
 `cd PyNmcli python setup.py install`
 
 ## **5.3**  **Установка пакета проекта качестве фонового демона**
@@ -255,39 +257,57 @@ pynmcli напрямую использует Network-Manager. Для устан
 ### 5.3.1  Установка
 
 `cd /etc/systemd/system`
+
 `sudo git clone https://github.com/ITMO-lab/wifi-autoconnector.git`
+
 `sudo cp wifi-autoconnector/wifi-autoconnector.service .`
+
 `sudo systemctl daemon-reload`
+
 `sudo systemctl stop wifi-autoconnector.service`
+
 `sudo systemctl disable wifi-autoconnector.service`
+
 `sudo systemctl enable wifi-autoconnector.service`
+
 `sudo systemctl start wifi-autoconnector.service`
+
 `sudo systemctl status wifi-autoconnector.service`
 
 ​	Сервис периодически ест ресурсы процессора, поэтому его можно выключать, когда он не нужен, командой:
 
 `cd /etc/systemd/system`
+
 `sudo systemctl stop wifi-autoconnector.service`
 
 ​	Или обратно включать командой:
 
-`cd /etc/systemd/system`
+`cd /etc/systemd/system
+
 `sudo systemctl start wifi-autoconnector.service`
 
 ​	Далее вам необходимо настроить файл **wifi-autoconnector/secret.json** для подключения к вашим точкам доступа. Формат записи следующий (в целях безопасности рекомендуется использовать BSSID сети, а саму сеть сделать скрытой. Следует помнить, что вы можете оставить любое поле, кроме BSSID/SSID пустым. Это нужно для подключения к открытым сетям Wi-Fi, не требующим авторизации, или к WPA/WPA2-PSK, где не требуется логин клиента сети, а требуется лишь общий ключ безопасности):
 
 `{`
+
 `. . .`
-	`"{BSSID} or {SSID}": {`	
-		`"password": "{your password}",`		
-		`"login": "{your WPA2-Enterprise login}"`
-	`},`
+
+​	`"{BSSID} or {SSID}": {`	
+
+​		`"password": "{your password}",`		
+
+​		`"login": "{your WPA2-Enterprise login}"`
+
+​	`},`
+
 `. . .`
+
 `}`
 
 ​	Для того, чтобы включить проброс топиков в ROS, надо выполнить в качестве трёх отдельных процессов (roscore уже запущен в фоне, если вы используете наш дистрибутив):
 
-`roscore  rosrun fkie_master_discovery zeroconf`
+`roscore  rosrun fkie_master_discovery zeroconf
+
 `rosrun fkie_master_sync master_sync`
 
 ​	Для проброса конкретных топиков и кастомизации настроек рекомендую ознакомиться с короткой официальной документацией:
@@ -305,13 +325,16 @@ http://wiki.ros.org/master_discovery_fkie
 
 ​	Под этой переменной заданы границы для “решателя” Stairs:
 
-`update_min_signal = 20 # from 0 to 100`
+`update_min_signal = 20 # from 0 to 100
+
 `update_max_signal = 40 # from 0 to 100`
 
 ​	Также вы можете настроить поведение системы в случае возникновения ошибки подключения к роутеру. По умолчанию выставляется таймаут на данный BSSID в секундах:
 
-`ignore_wrong_bssid_timeout = 0.0`
+`ignore_wrong_bssid_timeout = 0.0
+
 `ignore_wrong_auth_timeout = 30.0`
+
 `ignore_unexpected_error_timeout = 60.0`
 
 ​	Далее выбирается “стабильный” режим работы “решателя” Stairs:
