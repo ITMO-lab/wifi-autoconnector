@@ -282,7 +282,7 @@ pynmcli напрямую использует Network-Manager. Для устан
 
 ​	Или обратно включать командой:
 
-`cd /etc/systemd/system
+`cd /etc/systemd/system`
 
 `sudo systemctl start wifi-autoconnector.service`
 
@@ -306,7 +306,7 @@ pynmcli напрямую использует Network-Manager. Для устан
 
 ​	Для того, чтобы включить проброс топиков в ROS, надо выполнить в качестве трёх отдельных процессов (roscore уже запущен в фоне, если вы используете наш дистрибутив):
 
-`roscore  rosrun fkie_master_discovery zeroconf
+`roscore  rosrun fkie_master_discovery zeroconf`
 
 `rosrun fkie_master_sync master_sync`
 
@@ -325,13 +325,13 @@ http://wiki.ros.org/master_discovery_fkie
 
 ​	Под этой переменной заданы границы для “решателя” Stairs:
 
-`update_min_signal = 20 # from 0 to 100
+`update_min_signal = 20 # from 0 to 100`
 
 `update_max_signal = 40 # from 0 to 100`
 
 ​	Также вы можете настроить поведение системы в случае возникновения ошибки подключения к роутеру. По умолчанию выставляется таймаут на данный BSSID в секундах:
 
-`ignore_wrong_bssid_timeout = 0.0
+`ignore_wrong_bssid_timeout = 0.0`
 
 `ignore_wrong_auth_timeout = 30.0`
 
