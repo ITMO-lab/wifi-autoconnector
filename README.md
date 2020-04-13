@@ -158,7 +158,7 @@
 
 ### 4.2.1  Stairs
 
-​	Stairs - относительно простой простой “жадный” решатель с мертвой зоной сигнала при переподключении к новой сети.
+​	Stairs - относительно простой “жадный” решатель с мертвой зоной сигнала при переподключении к новой сети.
 
 ![img](https://lh5.googleusercontent.com/uRqOaQ3U6JTXy2_FWEIufj6dXX-lcathcCW8GdHIVdqjXTn-UJOLFvig8nzKYIVPooqRwA_3etGC8iNyjFU80qMZyuJxugc9DP3q0sGhwt3QZV01eOd10649y9fzhA2Me9fcR37S)
 
