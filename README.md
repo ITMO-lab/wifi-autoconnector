@@ -238,7 +238,9 @@ https://learn.ubiquityrobotics.com/
 ​	Пакет pynmcli не имеет зависимостей и работает с python 2.7+
 pynmcli напрямую использует Network-Manager. Для установки введите в консоль следующие команды:
 
-`sudo apt update -y sudo apt upgrade -y `
+`sudo apt update -y`
+
+ `sudo apt upgrade -y `
 
 `sudo apt install network-manager -y`
 
