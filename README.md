@@ -252,7 +252,9 @@ pynmcli напрямую использует Network-Manager. Для устан
 
 `git clone https://github.com/fbarresi/PyNmcli.git`
 
-`cd PyNmcli python setup.py install`
+`cd PyNmcli `
+
+`python setup.py install`
 
 ## **5.3**  **Установка пакета проекта качестве фонового демона**
 
@@ -308,7 +310,9 @@ pynmcli напрямую использует Network-Manager. Для устан
 
 ​	Для того, чтобы включить проброс топиков в ROS, надо выполнить в качестве трёх отдельных процессов (roscore уже запущен в фоне, если вы используете наш дистрибутив):
 
-`roscore  rosrun fkie_master_discovery zeroconf`
+`roscore `
+
+` rosrun fkie_master_discovery zeroconf`
 
 `rosrun fkie_master_sync master_sync`
 
