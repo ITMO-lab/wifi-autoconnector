@@ -1,4 +1,5 @@
 import pynmcli
+import NetworkManager
 import threading
 import time
 
@@ -13,7 +14,7 @@ class Connection(object):
         self.auto_connector_thread = threading.Thread(target=self.auto_connector)
         self.auto_connector_thread.setDaemon(True)
         self.is_alive = True
-        self.delay = 10 # seconds
+        self.delay = 1 # seconds
         self.status = "__init__"
         self.auto_connector_thread.start()
 
@@ -63,7 +64,7 @@ class Connection(object):
                 if ((self.BSSID is None or
                         line['CONNECTION'][:len(self.BSSID):] != self.BSSID)
                         and line['STATE'] == 'connected'):
-                    pynmcli.NetworkManager.Device().disconnect(self.device).execute()
+                    NetworkManager.NetworkManager.GetDeviceByIpIface(self.device).Disconnect()
                     return "connected to wrong bssid"
                 elif (line['STATE'] == 'disconnected'
                         and self.BSSID is None):

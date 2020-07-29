@@ -307,7 +307,7 @@ sudo reboot
 
 `. . .`
 
-​	`"{BSSID} or {SSID}": {`	
+​	`"{BSSID}": {`	
 
 ​		`"password": "{your password}",`		
 
