@@ -2,6 +2,8 @@
 import json
 import os
 import time
+import random
+from connection import Connection
 
 import NetworkManager
 import pynmcli
@@ -76,41 +78,18 @@ def signal_matrix_update(device_wifi_set, wifi_scan):
             signal_matrix[device][wifi[WIFI_SCAN_KEYS.index('HwAddress')]] = wifi[WIFI_SCAN_KEYS.index('Strength')]
     return signal_matrix
 
-def current_connections_update(device_wifi_set, wifi_scan):
+def current_connections_update():
     current_connections = {}
-    mehtods = ['Connection', 'Devices', 'Id', 'Master', 'SpecificObject']
 
     # TODO Проверить содержание NetworkManager.NetworkManager.ActiveConnections при подключении двух адаптеров в одной сети
 
     for active_connection in NetworkManager.NetworkManager.ActiveConnections:
         for device in active_connection.Devices:
-            device.Interface
             wifi_ap = active_connection.SpecificObject
-        res = {}
-        for mehtod in mehtods:
-            res[mehtod] = getattr(active_connection, mehtod)
-        print(res)
-        print(active_connection.Devices[0].Interface)
-
-
-        print(specificObject)
-        scan_result = ()
-        for field in WIFI_SCAN_KEYS:
-            scan_result += (getattr(specificObject, field),)
-        print(scan_result)
-
-    #print(dir(NetworkManager.NetworkManager.ActiveConnections))
-    for device in device_wifi_set:
-        #print(dir(NetworkManager.NetworkManager.GetDeviceByIpIface(device).GetAppliedConnection(0)))
-
-        wifi_list_raw = os.popen("nmcli -f in-use,ssid,bssid,signal device wifi list ifname " + device).read()
-        wifi_list_raw_connected = ""
-        for line in wifi_list_raw.splitlines():
-            if line.startswith('*'):
-                wifi_list_raw_connected += line + "\n"
-        wifi_list_connected = pynmcli.get_data(wifi_list_raw_connected)
-        for wifi in wifi_list_connected:
-            current_connections[device] = wifi
+            wifi_ap_status = ()
+            for field in WIFI_SCAN_KEYS:
+                wifi_ap_status += (getattr(wifi_ap, field),)
+            current_connections[device.Interface] = wifi_ap_status
     return current_connections
 
 
@@ -125,10 +104,8 @@ while True:
         # NetworkManager.NetworkManager.GetDeviceByIpIface(str)
         wifi_scan = wifi_scan_update(device_wifi_set)
         signal_matrix = signal_matrix_update(device_wifi_set, wifi_scan)
-        current_connections = current_connections_update(device_wifi_set, wifi_scan)
-        print('wifi_scan ', wifi_scan)
+        current_connections = current_connections_update()
 
-        """
         for device in device_wifi_set.difference(device_wifi_set_old):
             time.sleep(update_delay * random.random())
             connection_map[device] = Connection(device)
@@ -141,7 +118,7 @@ while True:
 
         connection_set = set()
         for device in current_connections:
-            BSSID = current_connections.get(device).get('BSSID')
+            BSSID = current_connections.get(device)[WIFI_SCAN_KEYS.index('HwAddress')]
             if (BSSID in connection_set):
                 connection_map[device].disconnect()
             connection_set.add(BSSID)
@@ -154,7 +131,7 @@ while True:
                     or connection_map[device].get_status() == 'disconnected'):
                 signal_matrix_new[device] = signal_matrix[device].copy()
             if (current_connections.get(device) is not None
-                    and current_connections.get(device).get('BSSID') not in secret.keys()):
+                    and current_connections.get(device)[WIFI_SCAN_KEYS.index('HwAddress')] not in secret.keys()):
                 connection_map[device].disconnect()
 
         signal_matrix = signal_matrix_new.copy()
