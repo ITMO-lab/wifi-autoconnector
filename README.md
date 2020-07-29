@@ -26,14 +26,11 @@
 [**5 Процесс установки и настройки**](#5--процесс-установки-и-настройки)
 
 - [5.1 Установка ubuntu 16.04 на raspberry pi 4](#51--установка-ubuntu-1604-на-raspberry-pi-4)
-
 - [5.2 Установка NetworkManager и pynmcli](#52--установка-networkmanager-и-pynmcli)
-
 - [5.3 Установка пакета проекта качестве фонового демона](#53--установка-пакета-проекта-качестве-фонового-демона)
-
-- - [5.3.1 Установка](#531--установка)
-  
-- - [5.3.2 Настройки](#532--настройки)
+- - [5.3.1 Подготовка системы](#531--подготовка-системы)
+- - [5.3.2 Установка](#532--установка)
+- - [5.3.3 Настройки](#533--настройки)
 
 [**6 Поиск Wi-Fi роутера для увеличения дальности и уровня безопасности связи**](#6--поиск-wi-fi-роутера-для-увеличения-дальности-и-уровня-безопасности-связи)
 
@@ -233,32 +230,46 @@ https://www.balena.io/etcher/
 ​	Дальнейшая конфигурация системы зависит от ваших персональных потребностей. Больше информации о дистрибутиве можно найти на сайте:
 https://learn.ubiquityrobotics.com/ 
 
-## **5.2**  **Установка NetworkManager и pynmcli**
+## **5.2**  **Установка NetworkManager и python-networkmanager**
 
-​	Пакет pynmcli не имеет зависимостей и работает с python 2.7+
-pynmcli напрямую использует Network-Manager. Для установки введите в консоль следующие команды:
+​	NetworkManager предоставляет подробный и функциональный интерфейс D-Bus на системной шине. Этот интерфейс можно использовать для запроса NetworkManager об общем состоянии сети и сведениях о сетевых устройствах, таких как текущие IP-адреса или параметры DHCP, а также для настройки, активации и деактивации сетевых подключений. [python-networkmanager](https://github.com/seveas/python-networkmanager) использует этот интерфейс D-Bus и объединяет интерфейсы D-Bus в классы, а методы и свойства D-Bus в их эквивалентах python. Для установки введите в консоль следующие команды.
 
-`sudo apt update -y`
+Сначала, обновляем систему и перезагружаемся:
 
- `sudo apt upgrade -y `
+```
+sudo apt update -y
+sudo apt upgrade -y
+sudo reboot
+```
 
-`sudo apt install network-manager -y`
+Теперь устанавливаем network-manager и снова перезагружаемся:
 
-​	Установить пакет можно двумя путями. Первый - через pip. Используйте `pip3 install` вместо `pip install`, если хотите работать с версией python 3+
-
-`pip install pynmcli`
-
-​	Также пакет можно собрать из исходников:
-
-`git clone https://github.com/fbarresi/PyNmcli.git`
-
-`cd PyNmcli `
-
-`python setup.py install`
+```
+sudo apt install -y wireless-tools
+sudo apt install -y network-manager
+sudo apt install -y python-networkmanager python-docopt python-empy python-evdev python-yaml python-dbus
+sudo apt install -y python3-networkmanager python3-docopt python3-empy python3-evdev python3-yaml python3-dbus
+sudo reboot
+```
 
 ## **5.3**  **Установка пакета проекта качестве фонового демона**
 
-### 5.3.1  Установка
+### 5.3.1 Подготовка системы
+
+​	Удаление [pifi](https://github.com/rohbotics/pifi) подчистую, если вы использовали дистрибутив **ubiquityrobotics**. [pifi](https://github.com/rohbotics/pifi) - хорошая программа для работы с сетью, но нам она будет только мешать, так как мы используем функционал, полностью его заменяющий это приложение на более высоком уровне безопасности и автономности:
+
+```
+sudo apt remove -y pifi
+sudo rm -rf /etc/pifi/
+sudo rm -rf /etc/NetworkManager/system-connections/Pifi\ AP\ Mode
+sudo reboot
+```
+
+
+
+
+
+### 5.3.2  Установка
 
 `cd /etc/systemd/system`
 
@@ -319,7 +330,7 @@ pynmcli напрямую использует Network-Manager. Для устан
 ​	Для проброса конкретных топиков и кастомизации настроек рекомендую ознакомиться с короткой официальной документацией:
 http://wiki.ros.org/master_discovery_fkie 
 
-### 5.3.2  Настройки
+### 5.3.3  Настройки
 
 ​	Класс Connection в wifi-autoconnector/connection.py имеет поле:
 
