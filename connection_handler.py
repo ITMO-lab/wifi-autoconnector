@@ -75,8 +75,8 @@ def current_connections_update():
             current_connections[device.Interface] = wifi_ap_status
     return current_connections
 
-# Нужно для периодических обновлений внутри цикла.
-global_cycle_time = time.time()
+secret = secret_update()
+logging.info('secret users = {0}'.format(list(secret.keys())))
 matcher = Stairs(stability=True)
 
 while True:
@@ -85,12 +85,6 @@ while True:
         if not os.path.isfile('/etc/systemd/system/wifi-autoconnector/online'):
             time.sleep(service_working_flag_check_update)
             continue
-
-        # Циклическое обновление списка пользователей.
-        if time.time() > global_cycle_time:
-            global_cycle_time += secret_update_timeout
-            secret = secret_update()
-            logging.info('secret users = {0}'.format(list(secret.keys())))
 
         start_cycle_time = time.time()
         time.sleep(update_delay)
