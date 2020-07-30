@@ -3,7 +3,7 @@ single_connection_update_delay = 1.0 # seconds
 update_min_signal = 20 # from 0 to 100
 update_max_signal = 40 # from 0 to 100
 
-wait_configure_before_ignore_timeout = 30.0
+wait_configure_before_ignore_timeout = 60.0
 ignore_waiting_time_exceeded_timeout = 30.0
 
 ignore_wrong_auth_timeout = 60.0*3
