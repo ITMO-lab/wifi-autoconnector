@@ -3,7 +3,7 @@ Description=Automatic Network Reconfiguration System
 
 [Service]
 ExecStart=/usr/bin/python3 /etc/systemd/system/wifi-autoconnector/connection_handler.py
-User=ubuntu
+User=root
 Type=simple
 Restart=on-failure
 RestartSec=1
