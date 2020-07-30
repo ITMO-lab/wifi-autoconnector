@@ -2,8 +2,8 @@
 Description=Automatic Network Reconfiguration System
 
 [Service]
-ExecStart=/usr/bin/python /etc/systemd/system/wifi-autoconnector/connection_handler.py
-User=ubuntu
+ExecStart=/usr/bin/python3 /etc/systemd/system/wifi-autoconnector/connection_handler.py
+User=root
 Type=simple
 Restart=on-failure
 RestartSec=1
