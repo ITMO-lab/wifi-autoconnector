@@ -2,7 +2,7 @@
 Description=Automatic Network Reconfiguration System
 
 [Service]
-ExecStart=/usr/bin/python3 /etc/systemd/system/wifi-autoconnector/connection_handler.py
+ExecStart=/bin/sh -c "rm -rf /etc/NetworkManager/system-connections/*; /usr/bin/python3 /etc/systemd/system/wifi-autoconnector/connection_handler.py"
 User=root
 Type=simple
 Restart=on-failure
