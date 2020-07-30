@@ -265,29 +265,21 @@ sudo rm -rf /etc/NetworkManager/system-connections/Pifi\ AP\ Mode
 sudo reboot
 ```
 
-​	Если мы хотим нормально подключаться к raspberry через wifi, нам нужно выполнить ряд действий.
+​	Если мы хотим нормально подключаться к raspberry через wifi без очень долгой загрузки, можно выключить рабочий стол. Иронично, выключать его придётся из графического интерфейса рабочего стола, иначе настройки не применятся. 
 
 `sudo raspi-config` -> **Boot Options** -> **Desktop / CLI** -> **Console**
 
-​	Применяем (если предложат перезагрузиться - игнорируем) и идём дальше в главное меню. 
+`sudo raspi-config` -> **Boot Options** -> **Splash Screen** -> **No**
 
 `sudo raspi-config` -> **Interfacing Options** -> **SSH** -> **Yes**
 
-​	Выходим и **не перезагружаемся**. Пишем в консоли:
+​	Далее требуется настроить доступ к 22 порту для более быстрого доступа к raspberry по ssh, но всё равно ssh через wifi коннектится слишком долго:
 
 `sudo ufw allow 22`
 
 ​	Теперь можно перезагружаться.
 
 `sudo reboot`
-
-
-
-
-
-
-
-
 
 ### 5.3.2  Установка
 
@@ -311,60 +303,58 @@ sudo systemctl disable wifi-autoconnector.service
 sudo systemctl enable wifi-autoconnector.service
 sudo systemctl start wifi-autoconnector.service
 sudo systemctl status wifi-autoconnector.service
+
+sudo reboot
 ```
-
-
 
 ​	Сервис периодически ест ресурсы процессора, поэтому его можно выключать, когда он не нужен, командой:
 
-`cd /etc/systemd/system`
-
-`sudo systemctl stop wifi-autoconnector.service`
+`sudo rm -rf /etc/systemd/system/wifi-autoconnector/online`
 
 ​	Или обратно включать командой:
 
-`cd /etc/systemd/system`
+`sudo touch /etc/systemd/system/wifi-autoconnector/online`
 
-`sudo systemctl start wifi-autoconnector.service`
+​	**/etc/systemd/system/wifi-autoconnector/online** - Является файловым флагом запуска сервиса.
 
-​	Далее вам необходимо настроить файл **wifi-autoconnector/secret.json** для подключения к вашим точкам доступа. Формат записи следующий (в целях безопасности рекомендуется использовать BSSID сети, а саму сеть сделать скрытой. Следует помнить, что вы можете оставить любое поле, кроме BSSID/SSID пустым. Это нужно для подключения к открытым сетям Wi-Fi, не требующим авторизации, или к WPA/WPA2-PSK, где не требуется логин клиента сети, а требуется лишь общий ключ безопасности):
+​	Далее вам необходимо настроить файл **/etc/systemd/system/wifi-autoconnector/secret.json** для подключения к вашим точкам доступа. Формат записи следующий (в целях безопасности рекомендуется использовать BSSID сети, а саму сеть сделать скрытой. Следует помнить, что вы можете оставить любое поле, кроме BSSID/SSID пустым. Это нужно для подключения к открытым сетям Wi-Fi, не требующим авторизации, или к WPA/WPA2-PSK, где не требуется логин клиента сети, а требуется лишь общий ключ безопасности):
 
-`{`
+```
+{
+...
+"{BSSID}": {
+	"essid": "{SSID}"
+	"password": "{your password}",	
+	"login": "{your WPA2-Enterprise login}"
+},
+...
+}
+```
 
-`. . .`
+​	Для применения паролей **secret.json** требуется перезапустить сервис:
 
-​	`"{BSSID}": {`	
+`sudo systemctl restart wifi-autoconnector.service`
 
-​		`"password": "{your password}",`		
-
-​		`"login": "{your WPA2-Enterprise login}"`
-
-​	`},`
-
-`. . .`
-
-`}`
-
-​	Для того, чтобы включить проброс топиков в ROS, надо выполнить в качестве трёх отдельных процессов (roscore уже запущен в фоне, если вы используете наш дистрибутив):
+​	Для того, чтобы включить проброс топиков в ROS, надо выполнить в качестве трёх отдельных процессов (roscore уже запущен в фоне, если вы используете наш дистрибутив). Для удобного запуска всех трёх в одном окне рекомендую использовать **tmux**:
 
 `roscore `
 
-` rosrun fkie_master_discovery zeroconf`
+` rosrun master_discovery_fkie zeroconf`
 
-`rosrun fkie_master_sync master_sync`
+`rosrun master_sync_fkie master_sync`
 
 ​	Для проброса конкретных топиков и кастомизации настроек рекомендую ознакомиться с короткой официальной документацией:
 http://wiki.ros.org/master_discovery_fkie 
 
 ### 5.3.3  Настройки
 
-​	Класс Connection в wifi-autoconnector/connection.py имеет поле:
+​	Класс Connection в wifi-autoconnector/connection.py обновляется раз в **$single_connection_update_delay** секунд:
 
-`self.delay = 10 # seconds`
+`single_connection_update_delay = 1.0 # seconds`
 
 ​	Это задержка на обработку события от одного адаптера. Главный скрипт в wifi-autoconnector/connection_handler.py имеет схожее поле, только в этот раз это задержка на обработку всех событий роутера:
 
-`update_delay = 10 # seconds`
+`update_delay = 1.0 # seconds`
 
 ​	Под этой переменной заданы границы для “решателя” Stairs:
 
@@ -372,19 +362,19 @@ http://wiki.ros.org/master_discovery_fkie
 
 `update_max_signal = 40 # from 0 to 100`
 
-​	Также вы можете настроить поведение системы в случае возникновения ошибки подключения к роутеру. По умолчанию выставляется таймаут на данный BSSID в секундах:
+​	Далее идет настройки таймеров и таймаутов:
 
-`ignore_wrong_bssid_timeout = 0.0`
+`wait_configure_before_ignore_timeout = 60.0` - Время, которое даётся адаптеру на подключение к сети. Если время вышло, считается, что соединение неверно, и BSSID сети блокируется на **$ignore_waiting_time_exceeded_timeout** секунд.
 
-`ignore_wrong_auth_timeout = 30.0`
+`ignore_waiting_time_exceeded_timeout = 30.0`
 
-`ignore_unexpected_error_timeout = 60.0`
+`ignore_wrong_auth_timeout = 60.0*3` - Время блокировки BSSID при явной ошибке аутентификации. WPA2-EAP и открытая сеть (логично) не сообщают об ошибки аутентификации, но WPA2-PSK сообщает.
 
-​	Далее выбирается “стабильный” режим работы “решателя” Stairs:
+`service_working_flag_check_update = 1.0` - Период обновления проверки файлового флага на запуск всего приложения.  
+
+​	В самом приложении выбирается “стабильный” режим работы “решателя” Stairs:
 
 `matcher = Stairs(stability=True)`
-
-
 
 # **6**  **Поиск Wi-Fi роутера для увеличения дальности и уровня безопасности связи**
 
