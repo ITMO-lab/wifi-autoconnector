@@ -265,29 +265,55 @@ sudo rm -rf /etc/NetworkManager/system-connections/Pifi\ AP\ Mode
 sudo reboot
 ```
 
+​	Если мы хотим нормально подключаться к raspberry через wifi, нам нужно выполнить ряд действий.
+
+`sudo raspi-config` -> **Boot Options** -> **Desktop / CLI** -> **Console**
+
+​	Применяем (если предложат перезагрузиться - игнорируем) и идём дальше в главное меню. 
+
+`sudo raspi-config` -> **Interfacing Options** -> **SSH** -> **Yes**
+
+​	Выходим и **не перезагружаемся**. Пишем в консоли:
+
+`sudo ufw allow 22`
+
+​	Теперь можно перезагружаться.
+
+`sudo reboot`
+
+
+
+
+
 
 
 
 
 ### 5.3.2  Установка
 
-`cd /etc/systemd/system`
+```
+cd /etc/systemd/system
+sudo rm -rf wifi-autoconnector
+sudo rm -rf wifi-autoconnector.service
 
-`sudo git clone https://github.com/ITMO-lab/wifi-autoconnector.git`
+sudo wget https://github.com/ITMO-lab/wifi-autoconnector/archive/master.zip
+sudo apt install unzip
+sudo unzip master.zip -d wifi-autoconnector
+sudo mv wifi-autoconnector/wifi-autoconnector-master/* wifi-autoconnector/
+sudo rm -rf wifi-autoconnector/wifi-autoconnector-master
+sudo rm -rf master.zip
 
-`sudo cp wifi-autoconnector/wifi-autoconnector.service .`
+sudo cp wifi-autoconnector/wifi-autoconnector.service .
 
-`sudo systemctl daemon-reload`
+sudo systemctl daemon-reload
+sudo systemctl stop wifi-autoconnector.service
+sudo systemctl disable wifi-autoconnector.service
+sudo systemctl enable wifi-autoconnector.service
+sudo systemctl start wifi-autoconnector.service
+sudo systemctl status wifi-autoconnector.service
+```
 
-`sudo systemctl stop wifi-autoconnector.service`
 
-`sudo systemctl disable wifi-autoconnector.service`
-
-`sudo systemctl enable wifi-autoconnector.service`
-
-`sudo systemctl start wifi-autoconnector.service`
-
-`sudo systemctl status wifi-autoconnector.service`
 
 ​	Сервис периодически ест ресурсы процессора, поэтому его можно выключать, когда он не нужен, командой:
 
